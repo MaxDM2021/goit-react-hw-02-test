@@ -1,114 +1,49 @@
 import React, { Component } from 'react';
-import FeedbackOptions from './FeedbackOptions';
-import Statistics from './Statistics';
-import Section from './Section';
-import Notification from './Notification';
+import shortid from "shortid";
 
 
 class App extends Component {
-  //1. Статика
-  // static defaultProps = {
-  //   initialvalue: 0,
-  //   // inicialvisible: false,
-  // };
 
-  //2. Состояние
   state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  
+      contacts: [
+        {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+        {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
+        {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
+        {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'}
+      ],
+      name: "",
+      number: "",
+      filter: "",
    };
 
-keys = Object.keys(this.state)
+   addContact = (name, number) => {
+    console.log(name, number);
 
-visible = false 
+    const contact = {
+      id: shortid.generate(),
+      name,
+      number,
+    };
+    this.setState(({ contacts }) => ({
+      contacts: [contact, ...contacts],
+    }));
+  };
 
-  // //  3. Кастомные методы
-  // handlIncrementeGood = () => {
-  //   //     // Замена относительно исходного состояния
-  //   //     // this.setState({ value: 666})
+  deleteContact = (contactId) => {
+    this.setState((prevState) => ({
+      contacts: prevState.contacts.filter((contact) => contact.id !== contactId),
+    }));
+  };
 
-  //   //     // Замена относительно текущего состояния
-  //   this.setState(prevState => ({
-  //     valueGood: prevState.good + 1,
-  //     visible: !prevState.inicialvisible? !prevState.inicialvisible: prevState.inicialvisible,
-  //   }));
-  // };
-
-  // handleIncrementNeutral = () => {
-  //   this.setState(prevState => ({
-  //     valueNeutral: prevState.neutral + 1,
-  //     visible: !prevState.inicialvisible? !prevState.inicialvisible: prevState.inicialvisible,
-  //   }));
-  // };
-
-  // handleIncrementBad = () => {
-  //   this.setState(prevState => ({
-  //     valueBad: prevState.bad + 1,
-  //     visible: !prevState.inicialvisible? !prevState.inicialvisible: prevState.inicialvisible,
-  //   }));
-  // };
-
-leaveFeedback = e => {
-  const comande = e.target.name
-
-  this.setState({
-    [comande]: this.state[comande] + 1,
-});
-};
-
-
-countTotalFeedback = () => {
-  const valueTotal = this.state.good + this.state.neutral + this.state.bad;
-  return valueTotal
-};
-
-countPositiveFeedbackPercentage = () => {
-
-   const valuePercentage = Math.ceil((this.state.good * 100) / this.countTotalFeedback());
-   return valuePercentage
-};
-
-
-
-  // Рендер
 
   render() {
 
 
 
-    // const valueTotal =
-    //   this.state.good + this.state.neutral + this.state.bad;
-
-    // const valuePercentage = Math.ceil(
-    //   (this.state.good * 100) / valueTotal
-    // );
-  
-
-    // const options = Object.keys(this.state)
 
     return (
       <>
-        <Section title="Please leave feedback:">
-          <FeedbackOptions
-               options={this.keys} onLeaveFeedback={this.leaveFeedback}
-            // onIncrementGood={this.handlIncrementeGood}
-            // onIncrementNeutral={this.handleIncrementNeutral}
-            // onIncrementBad={this.handleIncrementBad}
-          />
-        </Section>
 
-        <Section title="Statistics:">
-        {this.countTotalFeedback() !== 0 ? (
-          <Statistics
-            valueGood={this.state.good}
-            valueNeutral={this.state.neutral}
-            valueBad={this.state.bad}
-            valueTotal={this.countTotalFeedback()}
-            valuePercentage={this.countPositiveFeedbackPercentage()}
-          />) : <Notification title="There is no feedback!!!"/>}
-        </Section>
       </>
     );
   }
