@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import shortid from "shortid";
 
+import ContactForm from './ContactForm';
+import ContactList from './ContactList';
+import Filter from './Filter';
+import "./App.scss";
+
 
 class App extends Component {
 
@@ -35,16 +40,36 @@ class App extends Component {
     }));
   };
 
+  changeFilter = (e) => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+
+  getVisibleContacts = () => {
+    const { filter, contacts } = this.state;
+
+    const normalizedFilter = filter.toLocaleLowerCase();
+
+    return contacts.filter((contact) =>
+    contact.name.toLocaleLowerCase().includes(normalizedFilter)
+    );
+  };
+
 
   render() {
-
-
-
+    const { filter } = this.state;
+    const visibleContacts = this.getVisibleContacts();
 
     return (
-      <>
-
-      </>
+      <div className="Phonebook">
+      <h1 >Phonebook</h1>
+      <ContactForm onSubmit={this.addContact}  />
+    
+      <h2 className='TitleContacts'>Contacts</h2>
+      <Filter value={filter} onChange={this.changeFilter} />
+      <ContactList  contacts={visibleContacts}
+          onDeleteContact={this.deleteContact} />
+    </div>
     );
   }
 }

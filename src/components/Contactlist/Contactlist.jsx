@@ -1,34 +1,20 @@
 import React from 'react';
-import './Todolist.css';
+import "./ContactListStyles.scss";
 
 
-// ===== Вариант 1 =====
-
-// const TodoList = ({ todos,  onDeleteTodo, }) => (<ul className="TodoList">
-// {todos.map(({ id, text })=> (
-//     <li key={id} className="TodoList__item" >
-// <p className="TodoList__text">{text}</p>
-// <button onClick={() => onDeleteTodo(id)}>Удалить</button>
-//     </li>
-// ))}
-// </ul>
-// );
-
-// ===== Вариант 2 =====
-
-const ContactList = ({ contacts, onDeleteContacts }) => (
-  <ul className="TodoList">
-    {contacts.map(({ id, name, phonenumber }) => (
-      <li key={id} className="TodoList__item">
+const ContactList = ({ contacts, onDeleteContact }) => (
+  <ul className="ContactList">
+    {contacts.map(({ id, name, number }) => (
+      <li key={id} className="ContactList__item">
         <p className="TodoList__text">
-          {name}: {phonenumber}
+          {name}: {number}
         </p>
         <button
           type="button"
-          className="TodoList__btn"
-          onClick={() => onDeleteContacts(id)}
+          className="ContactList__btn"
+          onClick={() => onDeleteContact(id)}
         >
-          Удалить
+          Delete
         </button>
       </li>
     ))}
