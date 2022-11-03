@@ -25,9 +25,16 @@ class ContactForm extends Component {
     this.props.onSubmit(this.state.name , this.state.number);
     this.setState({ name: '', number: '' });
 
+
+    
+
   };
 
   render() {
+
+    const { name, number } = this.state;
+
+
     return (
       <form className="FormEditor" onSubmit={this.handleSubmit}>
  <label htmlFor={this.nameInputId}>
@@ -35,7 +42,7 @@ class ContactForm extends Component {
  <input className="FormEditorName"
   type="text"
   name="name"
-  value={this.state.name}
+  value={name}
   onChange={this.handleChangeName}
   id={this.nameInputId}
   placeholder="Name Surname" 
@@ -47,13 +54,14 @@ class ContactForm extends Component {
 <label htmlFor={this.numberInputId}>
   Number:
 <input className="FormEditorNumber"
-  type="number"
+  type="tel"
   name="number"
-  value={this.state.number}
+  value={number}
   onChange={this.handleChangeNumber}
   id={this.numberInputId}
   placeholder="123-45-67" 
-  title="Number may contain only this form: 123-45-67"
+  pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+  title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
   required
 />
 </label>

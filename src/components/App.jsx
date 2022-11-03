@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import shortid from "shortid";
+import Notiflix from 'notiflix';
 
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
@@ -21,17 +22,30 @@ class App extends Component {
       filter: "",
    };
 
-   addContact = (name, number) => {
-    console.log(name, number);
 
-    const contact = {
+
+   addContact = (name, number) => {
+   
+    const newContact = {
       id: shortid.generate(),
       name,
       number,
     };
+    console.log(newContact);
+
+    if (this.state.contacts.some(contact => contact.name === newContact.name)) {
+      
+      Notiflix.Notify.warning(`❌ ${newContact.name} is already is contacts`, {
+        timeout: 3000,
+        });
+      
+      return false;
+      }
     this.setState(({ contacts }) => ({
-      contacts: [contact, ...contacts],
-    }));
+      contacts: [newContact, ...contacts],
+    }))
+    return true;
+    ;
   };
 
   deleteContact = (contactId) => {
